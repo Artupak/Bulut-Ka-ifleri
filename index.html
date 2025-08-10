@@ -1,5 +1,5 @@
 <script>
-  // CTF için sabit değerler (gerçekte frontend'e API key koymayız)
+  // CTF için sabit değerler (gerçekte frontende key koymayın)
   const API     = "https://bulut-kasifleri-api.cinar0arda.workers.dev?minPuan=80";
   const API_KEY = "KASIF-12345-SECRET";
 
@@ -14,15 +14,18 @@
       if (!res.ok) throw new Error('API hata: ' + res.status);
       const json = await res.json();
 
-      // Basit tablo render (istersen düz JSON da gösterebilirsin)
+      // İstersen düz JSON göster:
+      // out.textContent = JSON.stringify(json, null, 2);
+
+      // Basit tablo olarak gösterelim:
       const rows = json.data || [];
       if (!rows.length) { out.textContent = 'Kayıt bulunamadı.'; return; }
 
+      const headers = ['id','ad','soyad','puan'];
       const table = document.createElement('table');
       table.style.borderCollapse = 'collapse';
       table.style.width = '100%';
 
-      const headers = ['id','ad','soyad','puan'];
       const thead = document.createElement('thead');
       const trh = document.createElement('tr');
       headers.forEach(h => {
@@ -31,9 +34,8 @@
         th.style.border = '1px solid #1f2937';
         th.style.padding = '8px';
         th.style.textAlign = 'left';
-        trh.appendChild(th);
+        thead.appendChild(trh).appendChild(th);
       });
-      thead.appendChild(trh);
       table.appendChild(thead);
 
       const tbody = document.createElement('tbody');
